@@ -20,25 +20,13 @@ from datetime import datetime
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-# Load .env file if present (for local execution)
-_env_file = os.path.join(os.path.dirname(__file__), ".env")
-if os.path.exists(_env_file):
-    with open(_env_file, "r", encoding="utf-8") as _f:
-        for _line in _f:
-            _line = _line.strip()
-            if _line and not _line.startswith("#") and "=" in _line:
-                _k, _v = _line.split("=", 1)
-                os.environ.setdefault(_k.strip(), _v.strip().strip('"').strip("'"))
-
 # =====================================================================
 # SECTION 1: YOUR SETTINGS
-# Reads from environment variables (recommended for GitHub Actions Secrets & .env),
-# with default fallbacks for general settings.
 # =====================================================================
-GMAIL_USER = os.getenv("GMAIL_USER", "balaramanperumal91@gmail.com")
-GMAIL_APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD", "")
-RECIPIENT_EMAIL = os.getenv("RECIPIENT_EMAIL", "sastaasastaa@gmail.com")
-EMAIL_SUBJECT = os.getenv("EMAIL_SUBJECT", "Daily Weather Report \u2013 Cherrapunji, Meghalaya")
+GMAIL_USER = "balaramanperumal91@gmail.com"        # Gmail address that SENDS the email
+GMAIL_APP_PASSWORD = "xpdh dpku ssut fcnq"         # 16-character Google App Password
+RECIPIENT_EMAIL = "sastaasastaa@gmail.com"         # Who receives the report
+EMAIL_SUBJECT = "Daily Weather Report \u2013 Cherrapunji, Meghalaya"
 
 try:
     import requests
@@ -220,10 +208,6 @@ def build_email(w, today):
 # SECTION 7: SEND THE EMAIL THROUGH GMAIL SMTP (STARTTLS)
 # =====================================================================
 def send_email(msg):
-    if not GMAIL_USER or not GMAIL_APP_PASSWORD:
-        raise RuntimeError(
-            "GMAIL_USER and GMAIL_APP_PASSWORD must be set in your .env file or environment variables."
-        )
     # Google shows App Passwords with spaces; remove them before logging in.
     password = GMAIL_APP_PASSWORD.replace(" ", "")
 

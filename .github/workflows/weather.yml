@@ -30,9 +30,5 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Weather Script
-        env:
-          GMAIL_USER: ${{ secrets.GMAIL_USER }}
-          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
-          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
         run: |
           python weather.py
